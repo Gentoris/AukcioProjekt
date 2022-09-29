@@ -1,6 +1,7 @@
 package hu.petrik.festmeny;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Festmeny {
 
@@ -106,5 +107,35 @@ public class Festmeny {
                 this.legutolsoLicitIdeje = LocalDateTime.now();
             }
         }
+    }
+    @Override
+    public String toString() {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formazott;
+        if (this.getLegutolsoLicitIdeje() != null) {
+            formazott = this.getLegutolsoLicitIdeje().format(formatter);
+        } else {
+            formazott = "Még nincsen";
+        }
+        if (this.elkelt) {
+            return String.format("%s: %s (%s) \n %s \n %d$ - %s (összesen: %d)\n",
+                    this.festo,
+                    this.cim,
+                    this.stilus,
+                    "elkelt",
+                    this.legmagasabbLicit,
+                    formazott,
+                    this.licitekSzama);
+        } else {
+            return String.format("%s: %s (%s) \n %d$ - %s (összesen: %d)\n",
+                    this.festo,
+                    this.cim,
+                    this.stilus,
+                    this.legmagasabbLicit,
+                    formazott,
+                    this.licitekSzama);
+        }
+
     }
 }
