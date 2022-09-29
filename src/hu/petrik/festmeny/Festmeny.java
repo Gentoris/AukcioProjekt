@@ -58,4 +58,53 @@ public class Festmeny {
         this.elkelt = elkelt;
     }
 
+
+    public void licit() {
+        if (this.elkelt ) {
+            System.out.println("A festmény elkelt már...");
+        }
+        else  {
+            if (this.legmagasabbLicit >= 100) {
+                try {
+                    licit(10);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+
+            } else {
+                this.legutolsoLicitIdeje = LocalDateTime.now();
+                this.legmagasabbLicit += 100;
+                this.licitekSzama += 1;
+            }
+
+        }
+    }
+    public void licit(int mertek) throws Exception {
+        if (mertek < 10 || mertek > 100) {
+            throw new Exception("Az értéket 10-100 között kell megadnia!");
+        } else if (this.Elkelt()) {
+            System.out.println("A festmény elkelt már...");;
+        } else {
+            if (this.getLegmagasabbLicit() < 100) {
+                licit();
+            }
+            else {
+                double szam = mertek;
+                System.out.println(szam);
+                int ertek = this.legmagasabbLicit + (int) (this.legmagasabbLicit * szam / 100);
+                System.out.println(ertek);
+                String szoveg = String.valueOf(ertek).toString();
+                String vegeredmeny;
+                StringBuilder formazottertek = new StringBuilder(String.valueOf(ertek).substring(0, 2));
+                vegeredmeny = formazottertek.toString();
+                for (int i = 0; i < szoveg.length() - 2; i++) {
+                    vegeredmeny += "0";
+                }
+                this.legmagasabbLicit = Integer.parseInt(String.valueOf(vegeredmeny));
+                System.out.println("" + this.getLegmagasabbLicit());
+                this.licitekSzama += 1;
+                this.legutolsoLicitIdeje = LocalDateTime.now();
+            }
+        }
+    }
 }
